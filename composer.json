@@ -1,0 +1,12 @@
+{
+  "require": {
+    "tmtbe/swooledistributed":">3.0.0"
+  },
+ "autoload": {
+    "psr-4": {
+      "app\\": "src/app",
+      "test\\": "src/test"
+    },
+    "files":["src/app/Common/functions.php"]
+  }
+}

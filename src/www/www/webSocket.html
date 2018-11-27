@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <script type="text/javascript">
+            function web(msg) {
+
+                exampleSocket = new WebSocket("wss://web.ycw520.xyz");
+                console.log(exampleSocket);
+                //console.log(exampleSocket.readyState);
+                exampleSocket.onopen = function (event) {
+                    console.log(exampleSocket.readyState);
+                    var data = {};
+                    data.controller_name = "TestController",
+                    data.method_name = "bind_uid";
+                    data.data = '111113';
+                    data = JSON.stringify(data);
+                    console.log(data);
+                    exampleSocket.send(data);
+                    setInterval(function () {
+                        var data = {};
+                        data.controller_name = "TestController",
+                                data.method_name = "ping";
+                        data.data = '111113';
+                        data = JSON.stringify(data);
+                        exampleSocket.send(data);
+                    }, 5000);
+                    if (msg) {
+                        send();
+                    }
+                };
+                exampleSocket.onmessage = function (event) {
+                    console.log(event.data);
+                }
+
+            }
+            window.onload = function () {
+                web()
+            }
+            function send() {
+                if (exampleSocket.readyState != 1) {
+                    console.log('服务器走丢了~');
+                    web('1');
+                } else {
+                    var text = {};
+                    text.controller_name = "TestController",
+                            text.method_name = "efficiency_test2";
+                    text.data = document.getElementById('content').value;
+                    text = JSON.stringify(text);
+                    exampleSocket.send(text);
+                }
+
+            }
+        </script>
+    </head>
+    <body>
+        <input  type="text" id="content">
+        <button  onclick="send()">发送</button>
+    </body>
+</html>
